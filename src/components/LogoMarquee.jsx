@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { trustedBy } from '../data/content';
 
 const wordmarkStyles = [
@@ -15,8 +16,17 @@ const wordmarkStyles = [
 export default function LogoMarquee() {
   const doubled = [...trustedBy, ...trustedBy];
 
+  // Scroll parallax: the band drifts slightly slower than the page.
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [36, -36]);
+
   return (
-    <section aria-label="Trusted by" className="border-y border-ink-100 bg-white/60 py-10 sm:py-12">
+    <section ref={ref} aria-label="Trusted by" className="border-y border-ink-100 bg-white/60 py-10 sm:py-12">
+      <motion.div style={{ y }}>
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -46,6 +56,7 @@ export default function LogoMarquee() {
           ))}
         </div>
       </div>
+      </motion.div>
     </section>
   );
 }

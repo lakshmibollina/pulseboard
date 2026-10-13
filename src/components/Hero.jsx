@@ -1,5 +1,11 @@
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { hero } from '../data/content';
+import Magnetic from './Magnetic';
+
+/* Lazy-loaded so three.js never ships to mobile/touch visitors —
+   HeroCanvas itself also bails out without a fine pointer. */
+const HeroCanvas = lazy(() => import('./HeroCanvas'));
 
 /* ---------- Pure-CSS product mockup ---------- */
 
@@ -287,15 +293,17 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.32 }}
             className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <motion.a
-              href="#cta"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-              className="w-full rounded-full bg-brand-600 px-8 py-4 text-base font-semibold text-white shadow-soft sm:w-auto"
-            >
-              {hero.primaryCta} →
-            </motion.a>
+            <Magnetic strength={12}>
+              <motion.a
+                href="#cta"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 380, damping: 18 }}
+                className="w-full rounded-full bg-brand-600 px-8 py-4 text-base font-semibold text-white shadow-soft sm:w-auto"
+              >
+                {hero.primaryCta} →
+              </motion.a>
+            </Magnetic>
             <motion.a
               href="#features"
               whileHover={{ scale: 1.05, y: -2 }}
@@ -322,8 +330,19 @@ export default function Hero() {
           </motion.p>
         </div>
 
-        <div className="mx-auto mt-14 max-w-5xl sm:mt-20">
-          <DashboardMockup />
+        <div className="relative mx-auto mt-14 max-w-5xl sm:mt-20">
+          {/* 3D accent layer — desktop only, sits behind the mockup */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 hidden md:block"
+          >
+            <Suspense fallback={null}>
+              <HeroCanvas />
+            </Suspense>
+          </div>
+          <div className="relative z-10">
+            <DashboardMockup />
+          </div>
         </div>
       </div>
     </section>

@@ -15,6 +15,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---- Custom cursor dot accent (only mounted on fine pointers; see CursorDot.jsx) ---- */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 9999px;
+  background: #2857e5;
+  box-shadow: 0 0 0 3px rgba(40, 87, 229, 0.12);
+  pointer-events: none;
+}
+
 /* ---- Marquee ---- */
 @keyframes marquee {
   0% { transform: translateX(0); }

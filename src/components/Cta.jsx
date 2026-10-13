@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { cta } from '../data/content';
+import Magnetic from './Magnetic';
 
 export default function Cta() {
   return (
@@ -40,15 +41,17 @@ export default function Cta() {
             {cta.subcopy}
           </p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <motion.a
-              href="#top"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 18 }}
-              className="w-full rounded-full bg-white px-8 py-4 text-base font-bold text-brand-700 shadow-lift sm:w-auto"
-            >
-              {cta.primaryCta} →
-            </motion.a>
+            <Magnetic strength={12}>
+              <motion.a
+                href="#top"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 380, damping: 18 }}
+                className="w-full rounded-full bg-white px-8 py-4 text-base font-bold text-brand-700 shadow-lift sm:w-auto"
+              >
+                {cta.primaryCta} →
+              </motion.a>
+            </Magnetic>
             <motion.a
               href="#pricing"
               whileHover={{ scale: 1.05, y: -2 }}

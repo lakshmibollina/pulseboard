@@ -8,10 +8,12 @@ import Testimonials from './components/Testimonials';
 import Faq from './components/Faq';
 import Cta from './components/Cta';
 import Footer from './components/Footer';
+import CursorDot from './components/CursorDot';
 
 export default function App() {
   return (
     <div className="min-h-screen bg-white font-body text-ink-900">
+      <CursorDot />
       <Navbar />
       <main>
         <Hero />

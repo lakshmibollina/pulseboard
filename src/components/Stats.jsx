@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import useCountUp from '../hooks/useCountUp';
 import { stats } from '../data/content';
 
@@ -28,14 +29,22 @@ function StatItem({ stat, index }) {
 }
 
 export default function Stats() {
+  // Scroll parallax: moves at a slightly different rate than the marquee band.
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [64, -64]);
+
   return (
-    <section aria-label="Pulseboard by the numbers" className="py-20 sm:py-24">
+    <section ref={ref} aria-label="Pulseboard by the numbers" className="py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+        <motion.div style={{ y }} className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {stats.map((stat, i) => (
             <StatItem key={stat.label} stat={stat} index={i} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
